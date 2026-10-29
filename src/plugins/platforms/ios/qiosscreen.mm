@@ -193,6 +193,13 @@ QIOSScreen::QIOSScreen(UIScreen *screen)
     }
 
     m_displayLink = [m_uiScreen displayLinkWithBlock:^(CADisplayLink *) { deliverUpdateRequests(); }];
+#if defined(Q_OS_IOS)
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CADisableMinimumFrameDurationOnPhone"] boolValue]) {
+        const float maximumFrameRate = static_cast<float>(m_uiScreen.maximumFramesPerSecond);
+        m_displayLink.preferredFrameRateRange = CAFrameRateRangeMake(
+                qMin(60.0f, maximumFrameRate), maximumFrameRate, maximumFrameRate);
+    }
+#endif
     m_displayLink.paused = YES; // Enabled when clients call QWindow::requestUpdate()
     [m_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 
