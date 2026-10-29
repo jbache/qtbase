@@ -5,6 +5,7 @@
 #include <AppKit/AppKit.h>
 
 #include "qcocoaintegration.h"
+#include <QtCore/qeasingcurve.h>
 
 #include "qcocoawindow.h"
 #include "qcocoabackingstore.h"
@@ -447,6 +448,11 @@ QVariant QCocoaIntegration::styleHint(StyleHint hint) const
         return QVariant(false);
     case ReplayMousePressOutsidePopup:
         return QVariant(false);
+    case FlickEasing: {
+        QEasingCurve curve(QEasingCurve::BezierSpline);
+        curve.addCubicBezierSegment(QPointF(0.16, 1), QPointF(0.3, 1), QPointF(1, 1));
+        return QVariant::fromValue(curve);
+    }
     default: break;
     }
 

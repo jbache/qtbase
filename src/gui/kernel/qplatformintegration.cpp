@@ -447,6 +447,8 @@ QVariant QPlatformIntegration::styleHint(StyleHint hint) const
         return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickMaximumVelocity);
     case FlickDeceleration:
         return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickDeceleration);
+    case FlickEasing:
+        return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickEasing);
     case UnderlineShortcut:
         return true;
     }

@@ -3,6 +3,7 @@
 // Qt-Security score:significant reason:default
 
 #include "qplatformtheme.h"
+#include <QtCore/qeasingcurve.h>
 
 #include "qplatformtheme_p.h"
 
@@ -598,6 +599,8 @@ QVariant QPlatformTheme::themeHint(ThemeHint hint) const
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::FlickMaximumVelocity);
     case QPlatformTheme::FlickDeceleration:
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::FlickDeceleration);
+    case QPlatformTheme::FlickEasing:
+        return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::FlickEasing);
     case QPlatformTheme::UnderlineShortcut:
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::UnderlineShortcut);
     default:
@@ -706,6 +709,8 @@ QVariant QPlatformTheme::defaultThemeHint(ThemeHint hint)
         return QVariant(2500);
     case FlickDeceleration:
         return QVariant(1500);
+    case FlickEasing:
+        return QVariant::fromValue(QEasingCurve(QEasingCurve::OutQuad));
     case MenuBarFocusOnAltPressRelease:
         return false;
     case MouseCursorTheme:

@@ -5,6 +5,7 @@
 #undef QT_NO_FOREACH // this file contains unported legacy Q_FOREACH uses
 
 #include "qiosintegration.h"
+#include <QtCore/qeasingcurve.h>
 #include "qioseventdispatcher.h"
 #include "qiosglobal.h"
 #include "qioswindow.h"
@@ -252,6 +253,11 @@ QVariant QIOSIntegration::styleHint(StyleHint hint) const
         return true;
     case SetFocusOnTouchRelease:
         return true;
+    case FlickEasing: {
+        QEasingCurve curve(QEasingCurve::BezierSpline);
+        curve.addCubicBezierSegment(QPointF(0.16, 1), QPointF(0.3, 1), QPointF(1, 1));
+        return QVariant::fromValue(curve);
+    }
     default:
         return QPlatformIntegration::styleHint(hint);
     }
