@@ -174,6 +174,10 @@ public:
         FlickMaximumVelocity,
         FlickDeceleration,
         UnderlineShortcut,
+        FlickDecayRate,
+        FlickBoostVelocityThreshold,
+        FlickBoostInterval,
+        FlickBoostIncrement,
     };
 
     virtual QVariant styleHint(StyleHint hint) const;

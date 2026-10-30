@@ -104,6 +104,10 @@ public:
         ScrollSingleStepDistance,
         MnemonicsEnabled,
         MenuActivationButtons,
+        FlickDecayRate,
+        FlickBoostVelocityThreshold,
+        FlickBoostInterval,
+        FlickBoostIncrement,
     };
     Q_ENUM(ThemeHint)
 

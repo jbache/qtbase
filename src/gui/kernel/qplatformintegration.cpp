@@ -452,6 +452,14 @@ QVariant QPlatformIntegration::styleHint(StyleHint hint) const
         return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickMaximumVelocity);
     case FlickDeceleration:
         return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickDeceleration);
+    case FlickDecayRate:
+        return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickDecayRate);
+    case FlickBoostVelocityThreshold:
+        return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickBoostVelocityThreshold);
+    case FlickBoostInterval:
+        return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickBoostInterval);
+    case FlickBoostIncrement:
+        return QPlatformTheme::defaultThemeHint(QPlatformTheme::FlickBoostIncrement);
     case UnderlineShortcut:
         return true;
     }

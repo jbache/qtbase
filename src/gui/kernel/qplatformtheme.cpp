@@ -165,6 +165,23 @@ QT_BEGIN_NAMESPACE
 
     \value MnemonicsEnabled (bool) Whether \l {QShortcut#mnemonic}{mnemonics} are enabled.
 
+    \value FlickDecayRate (qreal) The fraction of flick velocity retained per
+           millisecond by Qt Quick's exponential flick physics, or -1 to select
+           constant deceleration. See themeHint() for details.
+           This enum value has been added in Qt 6.13.
+
+    \value FlickBoostVelocityThreshold (qreal) The release velocity in logical
+           pixels per second above which repeated flicks accelerate.
+           This enum value has been added in Qt 6.13.
+
+    \value FlickBoostInterval (int) The maximum interval in milliseconds between
+           repeated flicks for acceleration to continue.
+           This enum value has been added in Qt 6.13.
+
+    \value FlickBoostIncrement (qreal) The velocity multiplier added by each
+           repeated flick.
+           This enum value has been added in Qt 6.13.
+
     \sa themeHint(), QStyle::pixelMetric()
 */
 
@@ -559,6 +576,20 @@ QIcon QPlatformTheme::fileIcon(const QFileInfo &fileInfo, QPlatformTheme::IconOp
     return QIcon();
 }
 
+/*!
+    Returns the platform-specific value for \a hint.
+
+    FlickDecayRate configures Qt Quick's default flick physics. A finite value
+    strictly between 0 and 1 specifies the fraction of velocity retained per
+    millisecond. Zero uses Qt's default exponential rate of 0.998; -1 selects
+    legacy constant deceleration. Other invalid values use Qt's default.
+    An application setting flickDeceleration selects legacy motion regardless
+    of this hint. A valid exponential rate also opts into spring rebound;
+    setting flickDeceleration does not change the rebound choice.
+
+    The default implementation forwards FlickDecayRate to
+    QPlatformIntegration::styleHint(), so integration plugins can override it.
+*/
 QVariant QPlatformTheme::themeHint(ThemeHint hint) const
 {
     // For theme hints which mirror platform integration style hints, query
@@ -600,6 +631,18 @@ QVariant QPlatformTheme::themeHint(ThemeHint hint) const
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::FlickMaximumVelocity);
     case QPlatformTheme::FlickDeceleration:
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::FlickDeceleration);
+    case QPlatformTheme::FlickDecayRate:
+        return QGuiApplicationPrivate::platformIntegration()->styleHint(
+                QPlatformIntegration::FlickDecayRate);
+    case QPlatformTheme::FlickBoostVelocityThreshold:
+        return QGuiApplicationPrivate::platformIntegration()->styleHint(
+                QPlatformIntegration::FlickBoostVelocityThreshold);
+    case QPlatformTheme::FlickBoostInterval:
+        return QGuiApplicationPrivate::platformIntegration()->styleHint(
+                QPlatformIntegration::FlickBoostInterval);
+    case QPlatformTheme::FlickBoostIncrement:
+        return QGuiApplicationPrivate::platformIntegration()->styleHint(
+                QPlatformIntegration::FlickBoostIncrement);
     case QPlatformTheme::UnderlineShortcut:
         return QGuiApplicationPrivate::platformIntegration()->styleHint(QPlatformIntegration::UnderlineShortcut);
     default:
@@ -705,9 +748,17 @@ QVariant QPlatformTheme::defaultThemeHint(ThemeHint hint)
     case FlickStartDistance:
         return QVariant(15);
     case FlickMaximumVelocity:
-        return QVariant(2500);
+        return QVariant(10000);
     case FlickDeceleration:
         return QVariant(1500);
+    case FlickDecayRate:
+        return QVariant(0.998);
+    case FlickBoostVelocityThreshold:
+        return QVariant(800);
+    case FlickBoostInterval:
+        return QVariant(800);
+    case FlickBoostIncrement:
+        return QVariant(0.4);
     case MenuBarFocusOnAltPressRelease:
         return false;
     case MouseCursorTheme:
